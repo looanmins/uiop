@@ -1,0 +1,112 @@
+<head>
+    <meta charset="UTF-8">
+    <title>luanmins</title>
+    <style>
+        body {
+            background: black;
+            color: white;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        #shopping_cart {
+            width: 450px;
+            border: 1px dotted red;
+            padding: 10px;
+            margin: 0 auto;
+            background: white;
+            color: black;
+        }
+
+        .item {
+            display: inline-block;
+            margin: 10px;
+            cursor: pointer;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .blink {
+            animation: blinker 1.5s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes backgroundBlink {
+            0% { background-color: black; }
+            50% { background-color: white; }
+            100% { background-color: black; }
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
+
+        .total {
+            font-size: 20px;
+            font-weight: bold;
+            padding-top: 10px;
+        }
+    </style>
+    <script>
+        let totalPrice = 0;
+
+        function addToCart(event) {
+            let item = event.target.getAttribute('data-item');
+            let price = parseFloat(event.target.getAttribute('data-price'));
+            totalPrice += price;
+
+            let shoppingCart = document.getElementById("shopping_cart");
+            let newItem = document.createElement("div");
+            newItem.className = "cart-item";
+            newItem.innerHTML = `<span>${item}</span><span>${price.toLocaleString()} 원</span>`;
+            shoppingCart.appendChild(newItem);
+
+            document.getElementById("total_price").textContent = `총 가격: ${totalPrice.toLocaleString()} 원`;
+        }
+
+        function toggleBackground() {
+            document.body.classList.toggle("blink");
+        }
+
+        function createButtons(items) {
+            const container = document.getElementById("item_container");
+            items.forEach(item => {
+                let button = document.createElement("button");
+                button.className = "item";
+                button.setAttribute("data-item", item.name);
+                button.setAttribute("data-price", item.price);
+                button.textContent = `${item.name} - ${item.price.toLocaleString()} 원`;
+                button.onclick = addToCart;
+                container.appendChild(button);
+            });
+        }
+
+        // JSON 파일을 비동기적으로 읽어와서 버튼 생성
+        fetch('items.json')
+            .then(response => response.json())
+            .then(data => createButtons(data))
+            .catch(error => console.error('Error loading items:', error));
+    </script>
+</head>
+<body>
+    <p>물건 사기</p>
+    <div id="shopping_cart">
+        <div id="total_price" class="total">총 가격: 0 원</div>
+    </div>
+    <br>
+    <div id="item_container"></div>
+    <br><br>
+    <button onclick="toggleBackground()">배경 반짝이기</button>
+</body>
+</html>
