@@ -93,7 +93,7 @@
         }
 
         function purchaseItems() {
-            window.location.href = 'purchase.html';
+            window.location.href = `purchase.html?price=${totalPrice.toLocaleString()}`;
         }
 
         // JSON 파일을 비동기적으로 읽어와서 버튼 생성
@@ -115,3 +115,4 @@
     <br><br>
     <button onclick="purchaseItems()">구매</button>
 </body>
+</html>
