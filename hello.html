@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>luanmins</title>
@@ -92,6 +94,10 @@
             });
         }
 
+        function purchaseItems() {
+            alert(`총 구매 금액은 ${totalPrice.toLocaleString()} 원입니다.`);
+        }
+
         // JSON 파일을 비동기적으로 읽어와서 버튼 생성
         fetch('items.json')
             .then(response => response.json())
@@ -108,5 +114,7 @@
     <div id="item_container"></div>
     <br><br>
     <button onclick="toggleBackground()">배경 반짝이기</button>
+    <br><br>
+    <button onclick="purchaseItems()">구매</button>
 </body>
 </html>
